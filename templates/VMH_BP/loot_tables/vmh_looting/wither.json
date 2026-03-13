@@ -26,8 +26,9 @@
       ],
       "conditions": [
         {
-          "condition": "random_chance",
-          "chance": 0.01
+          "condition": "random_chance_with_looting",
+          "chance": 0.25,
+          "looting_multiplier": 0.10
         }
       ]
     }

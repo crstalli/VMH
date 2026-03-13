@@ -198,24 +198,43 @@ system.beforeEvents.startup.subscribe(eventData => {
     eventData.blockComponentRegistry.registerCustomComponent('vmh:check_noteblock', {
         onTick(event) {
             const block = event.block;
-            const blockBelow = block.below();
-            const currentRedstonePower = blockBelow.getRedstonePower();
-            const { x, y, z } = blockBelow.location
-            const blockKey = `${x}*${y}*${z}`
-            const blockObject = blockMap.get(blockKey) ?? {};
-            const { previousRedstonePower } = blockObject;
+            const neighbors = [
+                block.north(),
+                block.south(),
+                block.east(),
+                block.west(),
+                block.below(),
+            ];
 
-            if (blockBelow.typeId == "minecraft:noteblock" && currentRedstonePower > 0 && currentRedstonePower != previousRedstonePower) {
-                const location = blockBelow.location;
-                for (let i = 0; i < headArray.length; i++) {
-                    if (block.typeId == headArray[i][1]) {
-                        world.playSound(headArray[i][3], location)
-                        break;
+            for (const neighbor of neighbors) {
+                if (!neighbor || neighbor.typeId !== "minecraft:noteblock") continue;
+
+                const { x, y, z } = neighbor.location;
+                const blockKey = `${x}*${y}*${z}`;
+                const blockObject = blockMap.get(blockKey) ?? {};
+                const { previousPowered } = blockObject;
+
+                const powerNeighbors = [
+                    neighbor.north(),
+                    neighbor.south(),
+                    neighbor.east(),
+                    neighbor.west(),
+                    neighbor.below(),
+                ];
+                const currentPowered = powerNeighbors.some(n => (n?.getRedstonePower() ?? 0) > 0);
+
+                if (currentPowered && !previousPowered) {
+                    for (let i = 0; i < headArray.length; i++) {
+                        if (block.typeId == headArray[i][1]) {
+                            neighbor.dimension.playSound(headArray[i][3], neighbor.location, { volume: 1.2 });
+                            break;
+                        }
                     }
                 }
+
+                blockObject.previousPowered = currentPowered;
+                blockMap.set(blockKey, blockObject);
             }
-            blockObject.previousRedstonePower = currentRedstonePower;
-            blockMap.set(blockKey, blockObject)
         }
     })
 });
