@@ -7,12 +7,12 @@
             100
         ],
         "name": "Vanilla Mob Heads (VMH)",
-        "description": "by RWRmrfrog",
+        "description": "by RWRmrfrog and CZTL",
         "uuid": "af587322-a7fd-4b88-872d-ab9b3f9c24b3",
         "version": [
             1,
             2,
-            2
+            4
         ]
     },
     "modules": [
@@ -22,7 +22,7 @@
             "version": [
                 1,
                 2,
-                2
+                4
             ]
         },
         {
@@ -33,7 +33,7 @@
             "version": [
                 1,
                 2,
-                2
+                4
             ]
         }
     ],
@@ -43,7 +43,7 @@
             "version": [
                 1,
                 2,
-                2
+                4
             ]
         },
         {
