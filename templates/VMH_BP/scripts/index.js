@@ -226,7 +226,7 @@ system.beforeEvents.startup.subscribe(eventData => {
                 if (currentPowered && !previousPowered) {
                     for (let i = 0; i < headArray.length; i++) {
                         if (block.typeId == headArray[i][1]) {
-                            neighbor.dimension.playSound(headArray[i][3], neighbor.location, { volume: 1.2 });
+                            neighbor.dimension.playSound(headArray[i][3], neighbor.location, { volume: 100.0 });
                             break;
                         }
                     }
@@ -253,7 +253,7 @@ world.afterEvents.playerInteractWithBlock.subscribe((eventData) => {
         if (block.typeId == "minecraft:noteblock") {
             for (let i = 0; i < headArray.length; i++) {
                 if (blockAbove.typeId == headArray[i][1]) {
-                    dimension.playSound(headArray[i][3], block.location);
+                    dimension.playSound(headArray[i][3], block.location, { volume: 100.0 });
                     break;
                 }
             }
